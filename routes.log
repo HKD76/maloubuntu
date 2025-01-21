@@ -1,0 +1,343 @@
+{
+  "timestamp": "2025-01-20T13:13:55.770Z",
+  "method": "POST",
+  "url": "/api/article/createArticle",
+  "params": {},
+  "query": {},
+  "body": {
+    "title": "Article 6",
+    "description": "Description Article 6"
+  },
+  "statusCode": 201,
+  "duration": "9ms",
+  "userAgent": "PostmanRuntime/7.40.0",
+  "ip": "::1"
+}
+---
+{
+  "timestamp": "2025-01-20T13:14:09.657Z",
+  "method": "POST",
+  "url": "/api/article/createArticle",
+  "params": {},
+  "query": {},
+  "body": {
+    "title": "Article 7",
+    "description": "Description Article 7"
+  },
+  "statusCode": 201,
+  "duration": "6ms",
+  "userAgent": "PostmanRuntime/7.40.0",
+  "ip": "::1"
+}
+---
+{
+  "timestamp": "2025-01-20T13:43:30.420Z",
+  "method": "POST",
+  "url": "/api/article/createArticle",
+  "params": {},
+  "query": {},
+  "body": {
+    "title": "Article 8",
+    "description": "Description Article 8"
+  },
+  "statusCode": 201,
+  "duration": "11ms",
+  "userAgent": "PostmanRuntime/7.40.0",
+  "ip": "::1"
+}
+---
+{
+  "timestamp": "2025-01-20T14:39:35.563Z",
+  "method": "POST",
+  "url": "/api/invoice/generateInvoice",
+  "params": {},
+  "query": {},
+  "body": {
+    "title": "Article 8",
+    "description": "Description Article 8"
+  },
+  "statusCode": 200,
+  "duration": "39ms",
+  "userAgent": "PostmanRuntime/7.40.0",
+  "ip": "::1"
+}
+---
+{
+  "timestamp": "2025-01-20T14:39:53.267Z",
+  "method": "POST",
+  "url": "/api/invoice/generateInvoice",
+  "params": {},
+  "query": {},
+  "body": {},
+  "statusCode": 200,
+  "duration": "7ms",
+  "userAgent": "PostmanRuntime/7.40.0",
+  "ip": "::1"
+}
+---
+{
+  "timestamp": "2025-01-20T14:40:21.635Z",
+  "method": "POST",
+  "url": "/api/invoice/generateInvoice",
+  "params": {},
+  "query": {},
+  "body": {
+    "clientName": "Société ABC",
+    "montant": "1500€",
+    "description": "Prestation de services"
+  },
+  "statusCode": 200,
+  "duration": "12ms",
+  "userAgent": "PostmanRuntime/7.40.0",
+  "ip": "::1"
+}
+---
+{
+  "timestamp": "2025-01-20T14:40:54.255Z",
+  "method": "POST",
+  "url": "/api/invoice/generateInvoice",
+  "params": {},
+  "query": {},
+  "body": {
+    "clientName": "Société ABC",
+    "montant": "1500€",
+    "description": "Prestation de services"
+  },
+  "statusCode": 200,
+  "duration": "10ms",
+  "userAgent": "PostmanRuntime/7.40.0",
+  "ip": "::1"
+}
+---
+{
+  "timestamp": "2025-01-20T14:42:28.530Z",
+  "method": "POST",
+  "url": "/api/invoice/generateInvoice",
+  "params": {},
+  "query": {},
+  "body": {
+    "numeroFacture": "F-2024-001",
+    "dateFacture": "2024-03-20",
+    "entrepriseEmettrice": {
+      "nom": "Ma Société SARL",
+      "adresse": "123 rue de la Paix",
+      "codePostal": "75000",
+      "ville": "Paris",
+      "siret": "123 456 789 00001",
+      "email": "contact@masociete.fr",
+      "telephone": "01 23 45 67 89"
+    },
+    "client": {
+      "nom": "Client SARL",
+      "adresse": "456 avenue des Clients",
+      "codePostal": "69000",
+      "ville": "Lyon",
+      "email": "contact@client.fr",
+      "telephone": "04 56 78 90 12"
+    },
+    "prestations": [
+      {
+        "description": "Développement API REST",
+        "quantite": 5,
+        "unité": "jours",
+        "prixUnitaire": 800,
+        "montantHT": 4000
+      },
+      {
+        "description": "Formation Node.js",
+        "quantite": 2,
+        "unité": "jours",
+        "prixUnitaire": 1000,
+        "montantHT": 2000
+      }
+    ],
+    "paiement": {
+      "totalHT": 6000,
+      "tva": 20,
+      "montantTVA": 1200,
+      "totalTTC": 7200,
+      "conditions": "Paiement à 30 jours",
+      "iban": "FR76 1234 5678 9012 3456 7890 123",
+      "bic": "ABCDEFGHIJK"
+    }
+  },
+  "statusCode": 200,
+  "duration": "9ms",
+  "userAgent": "PostmanRuntime/7.40.0",
+  "ip": "::1"
+}
+---
+{
+  "timestamp": "2025-01-20T14:43:40.245Z",
+  "method": "POST",
+  "url": "/api/invoice/generateInvoice",
+  "params": {},
+  "query": {},
+  "body": {
+    "numeroFacture": "F-2024-001",
+    "dateFacture": "2024-03-20",
+    "entrepriseEmettrice": {
+      "nom": "Ma Société SARL",
+      "adresse": "123 rue de la Paix",
+      "codePostal": "75000",
+      "ville": "Paris",
+      "siret": "123 456 789 00001",
+      "email": "contact@masociete.fr",
+      "telephone": "01 23 45 67 89"
+    },
+    "client": {
+      "nom": "Client SARL",
+      "adresse": "456 avenue des Clients",
+      "codePostal": "69000",
+      "ville": "Lyon",
+      "email": "contact@client.fr",
+      "telephone": "04 56 78 90 12"
+    },
+    "prestations": [
+      {
+        "description": "Développement API REST",
+        "quantite": 5,
+        "unité": "jours",
+        "prixUnitaire": 800,
+        "montantHT": 4000
+      },
+      {
+        "description": "Formation Node.js",
+        "quantite": 2,
+        "unité": "jours",
+        "prixUnitaire": 1000,
+        "montantHT": 2000
+      }
+    ],
+    "paiement": {
+      "totalHT": 6000,
+      "tva": 20,
+      "montantTVA": 1200,
+      "totalTTC": 7200,
+      "conditions": "Paiement à 30 jours",
+      "iban": "FR76 1234 5678 9012 3456 7890 123",
+      "bic": "ABCDEFGHIJK"
+    }
+  },
+  "statusCode": 200,
+  "duration": "19ms",
+  "userAgent": "PostmanRuntime/7.40.0",
+  "ip": "::1"
+}
+---
+{
+  "timestamp": "2025-01-20T14:45:36.776Z",
+  "method": "POST",
+  "url": "/api/invoice/generateInvoice",
+  "params": {},
+  "query": {},
+  "body": {
+    "numeroFacture": "F-2024-001",
+    "dateFacture": "2024-03-20",
+    "entrepriseEmettrice": {
+      "nom": "Ma Société SARL",
+      "adresse": "123 rue de la Paix",
+      "codePostal": "75000",
+      "ville": "Paris",
+      "siret": "123 456 789 00001",
+      "email": "contact@masociete.fr",
+      "telephone": "01 23 45 67 89"
+    },
+    "client": {
+      "nom": "Client SARL",
+      "adresse": "456 avenue des Clients",
+      "codePostal": "69000",
+      "ville": "Lyon",
+      "email": "contact@client.fr",
+      "telephone": "04 56 78 90 12"
+    },
+    "prestations": [
+      {
+        "description": "Développement API REST",
+        "quantite": 5,
+        "unité": "jours",
+        "prixUnitaire": 800,
+        "montantHT": 4000
+      },
+      {
+        "description": "Formation Node.js",
+        "quantite": 2,
+        "unité": "jours",
+        "prixUnitaire": 1000,
+        "montantHT": 2000
+      }
+    ],
+    "paiement": {
+      "totalHT": 6000,
+      "tva": 20,
+      "montantTVA": 1200,
+      "totalTTC": 7200,
+      "conditions": "Paiement à 30 jours",
+      "iban": "FR76 1234 5678 9012 3456 7890 123",
+      "bic": "ABCDEFGHIJK"
+    }
+  },
+  "statusCode": 200,
+  "duration": "18ms",
+  "userAgent": "PostmanRuntime/7.40.0",
+  "ip": "::1"
+}
+---
+{
+  "timestamp": "2025-01-20T14:47:04.575Z",
+  "method": "POST",
+  "url": "/api/invoice/generateInvoice",
+  "params": {},
+  "query": {},
+  "body": {
+    "numeroFacture": "F-2024-001",
+    "dateFacture": "2024-03-20",
+    "entrepriseEmettrice": {
+      "nom": "Ma Société SARL",
+      "adresse": "123 rue de la Paix",
+      "codePostal": "75000",
+      "ville": "Paris",
+      "siret": "123 456 789 00001",
+      "email": "contact@masociete.fr",
+      "telephone": "01 23 45 67 89"
+    },
+    "client": {
+      "nom": "Client SARL",
+      "adresse": "456 avenue des Clients",
+      "codePostal": "69000",
+      "ville": "Lyon",
+      "email": "contact@client.fr",
+      "telephone": "04 56 78 90 12"
+    },
+    "prestations": [
+      {
+        "description": "Développement API REST",
+        "quantite": 5,
+        "unité": "jours",
+        "prixUnitaire": 800,
+        "montantHT": 4000
+      },
+      {
+        "description": "Formation Node.js",
+        "quantite": 2,
+        "unité": "jours",
+        "prixUnitaire": 1000,
+        "montantHT": 2000
+      }
+    ],
+    "paiement": {
+      "totalHT": 6000,
+      "tva": 20,
+      "montantTVA": 1200,
+      "totalTTC": 7200,
+      "conditions": "Paiement à 30 jours",
+      "iban": "FR76 1234 5678 9012 3456 7890 123",
+      "bic": "ABCDEFGHIJK"
+    }
+  },
+  "statusCode": 200,
+  "duration": "19ms",
+  "userAgent": "PostmanRuntime/7.40.0",
+  "ip": "::1"
+}
+---

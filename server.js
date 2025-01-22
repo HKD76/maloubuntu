@@ -9,20 +9,37 @@ import invoiceRoutes from "./routes/invoice.routes.js";
 import log from "./middleware/logFunction.js";
 import { setupRouteLogger } from "./middleware/routeLogger.js";
 import messageEmitter from "./event.js";
+import compression from "compression";
+import { requestLogger, errorHandler } from "./middleware/requestLogger.js";
+import logger from "./config/logger.js";
+import helmet from "helmet";
 
 const app = express();
 dotenv.config();
 
 // Middlewares
+app.use(helmet());
 app.use(cors());
 app.use(bodyParser.json());
+app.use(
+  compression({
+    threshold: 1024,
+    filter: (req, res) => {
+      if (req.headers["x-no-compression"]) {
+        return false;
+      }
+      return !req.path.match(/\.(jpg|jpeg|png|gif|svg|pdf|mp4)$/i);
+    },
+  })
+);
 
 // Configuration des logs
-const ROUTES_LOG_FILE = "routes.log";
+const ROUTES_LOG_FILE = "logs/routes.log";
 
 // Middleware pour la rotation des logs
 app.use((req, res, next) => {
   log.rotateLog(ROUTES_LOG_FILE);
+  logger.info(`Requete ${req.method} - IP: ${req.ip} - URL: ${req.url}`);
   messageEmitter.emit("message", req.url);
   next();
 });
@@ -30,10 +47,16 @@ app.use((req, res, next) => {
 // Configuration du logger pour toutes les routes
 app.use(setupRouteLogger(express.Router(), ROUTES_LOG_FILE));
 
+// Ajout du middleware de logging
+app.use(requestLogger);
+
 // Routes de l'application
 app.use("/api/articles", articleRoutes);
 app.use("/api/presentations", presentationRoutes);
 app.use("/api/invoices", invoiceRoutes);
+
+// Gestion des erreurs
+app.use(errorHandler);
 
 mongoose
   .connect(process.env.MONGODB_URI, {
@@ -41,17 +64,17 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => {
-    console.log("Connected to MongoDB");
+    logger.info("Connected to MongoDB");
     messageEmitter.emit("message", "Connected to MongoDB");
   })
   .catch((err) => {
-    console.log(err);
+    logger.crit("MongoDB connection error", err);
     messageEmitter.emit("message", "MongoDB connection error");
   });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  log.writeLog("server2.log", "Server is running");
+  log.writeLog("logs/server2.log", "Server is running");
   messageEmitter.emit("message", `Server is running on port ${PORT}`);
-  console.log(`Running on port ${PORT}`);
+  logger.info(`Server running on port ${PORT}`);
 });

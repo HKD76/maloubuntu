@@ -1,12 +1,35 @@
 import { EventEmitter } from "events";
 import fs from "fs";
 import PDFDocument from "pdfkit";
+import path from "path";
+import logger from "../config/logger.js";
 
 const invoiceEmitter = new EventEmitter();
 
+const ensureDirectoryExists = (dirPath) => {
+  if (!fs.existsSync(dirPath)) {
+    fs.mkdirSync(dirPath, { recursive: true });
+  }
+};
+
 invoiceEmitter.on("generateInvoice", (data) => {
   const doc = new PDFDocument();
-  const filename = `facture-${Date.now()}.pdf`;
+
+  // Création du dossier invoices s'il n'existe pas
+  const invoicesDir = "documents/invoices";
+  ensureDirectoryExists(invoicesDir);
+
+  // Format du nom de fichier: YYYYMMDD-HHMMSS-numeroFacture.pdf
+  const dateStr = new Date()
+    .toISOString()
+    .replace(/[:-]/g, "")
+    .split(".")[0]
+    .replace("T", "-");
+
+  const filename = path.join(
+    invoicesDir,
+    `${dateStr}-${data.numeroFacture}.pdf`
+  );
 
   doc.pipe(fs.createWriteStream(filename));
 
@@ -113,7 +136,7 @@ invoiceEmitter.on("generateInvoice", (data) => {
   doc.fontSize(12).text("Merci de votre confiance", { align: "center" });
 
   doc.end();
-  console.log(`Facture générée: ${filename}`);
+  logger.info(`Facture générée: ${filename}`);
 });
 
 export default invoiceEmitter;

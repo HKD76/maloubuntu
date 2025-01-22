@@ -13,7 +13,7 @@ import compression from "compression";
 import { requestLogger, errorHandler } from "./middleware/requestLogger.js";
 import logger from "./config/logger.js";
 import helmet from "helmet";
-import redisClient from "./config/redis.js";
+import redis from "./config/redis.js";
 
 const app = express();
 dotenv.config();
@@ -60,7 +60,7 @@ app.use("/api/invoices", invoiceRoutes);
 app.use(errorHandler);
 
 // Vérifier la connexion Redis au démarrage
-redisClient
+redis.client
   .ping()
   .then(() => {
     logger.info("Redis est connecté");

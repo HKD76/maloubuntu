@@ -121,19 +121,48 @@ export const deleteLanguage = async (req, res) => {
 export const createMultipleLanguages = async (req, res) => {
   try {
     const languages = req.body;
-    const savedLanguages = await Language.insertMany(languages);
+    const savedLanguages = await Language.insertMany(languages, {
+      ordered: false,
+    });
     res.status(201).json({
       success: true,
       message: "Langages créés avec succès",
       data: savedLanguages,
     });
   } catch (error) {
-    logger.error(`Erreur lors de la création des langages: ${error.message}`);
-    res.status(400).json({
-      success: false,
-      message: "Erreur lors de la création des langages",
-      error: error.message,
+    if (error.code === 11000) {
+      // Erreur de duplication
+      logger.error("Duplication d'un langage existant");
+      res.status(409).json({
+        success: false,
+        message: "Duplication d'un langage existant",
+        error: error.message,
+      });
+    } else {
+      logger.error(`Erreur lors de la création des langages: ${error.message}`);
+      res.status(400).json({
+        success: false,
+        message: "Erreur lors de la création des langages",
+        error: error.message,
+      });
+    }
+  }
+};
+
+export const deleteAllLanguages = async (req, res) => {
+  try {
+    const result = await Language.deleteMany({});
+    await invalidateLanguageCache();
+    res.status(200).json({
+      success: true,
+      message: "Tous les langages ont été supprimés avec succès",
+      deletedCount: result.deletedCount,
     });
+  } catch (error) {
+    logger.error(
+      `Erreur lors de la suppression des langages: ${error.message}`
+    );
+    res.status(500).json({ message: error.message });
   }
 };
 

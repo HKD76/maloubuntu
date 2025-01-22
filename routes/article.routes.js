@@ -6,7 +6,7 @@ import {
 
 const router = Router();
 
-router.get("/getArticle", getArticles);
-router.post("/createArticle", createArticle);
+router.get("/", getArticles);
+router.post("/", createArticle);
 
 export default router;

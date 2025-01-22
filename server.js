@@ -14,6 +14,7 @@ import { requestLogger, errorHandler } from "./middleware/requestLogger.js";
 import logger from "./config/logger.js";
 import helmet from "helmet";
 import redis from "./config/redis.js";
+import languageRoutes from "./routes/language.routes.js";
 
 const app = express();
 dotenv.config();
@@ -55,6 +56,7 @@ app.use(requestLogger);
 app.use("/api/articles", articleRoutes);
 app.use("/api/presentations", presentationRoutes);
 app.use("/api/invoices", invoiceRoutes);
+app.use("/api/languages", languageRoutes);
 
 // Gestion des erreurs
 app.use(errorHandler);

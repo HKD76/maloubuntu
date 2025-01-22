@@ -12,13 +12,12 @@ import messageEmitter from "./event.js";
 import compression from "compression";
 import { requestLogger, errorHandler } from "./middleware/requestLogger.js";
 import logger from "./config/logger.js";
-import helmet from "helmet";
+// import helmet from "helmet";
 
 const app = express();
 dotenv.config();
 
 // Middlewares
-app.use(helmet());
 app.use(cors());
 app.use(bodyParser.json());
 app.use(

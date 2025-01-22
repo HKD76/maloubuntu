@@ -15,8 +15,6 @@ import logger from "./config/logger.js";
 import helmet from "helmet";
 import redisClient from "./config/redis.js";
 
-redisClient();
-
 const app = express();
 dotenv.config();
 

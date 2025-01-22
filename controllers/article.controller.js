@@ -1,14 +1,25 @@
 import Article from "../model/Article.js";
-import redis from "../config/redis.js";
+import redisClient from "../config/redis.js";
 import logger from "../config/logger.js";
 
 const CACHE_DURATION = 3600; // 1 heure en secondes
+
+const handleRedisError = (error) => {
+  logger.error(`Erreur Redis: ${error.message}`);
+  return null;
+};
 
 export const getArticles = async (req, res) => {
   try {
     // Vérifier le cache Redis
     const cacheKey = "articles";
-    const cachedArticles = await redis.get(cacheKey);
+    let cachedArticles = null;
+
+    try {
+      cachedArticles = await redisClient.get(cacheKey);
+    } catch (redisError) {
+      handleRedisError(redisError);
+    }
 
     if (cachedArticles) {
       logger.info("Articles récupérés depuis le cache Redis");
@@ -19,8 +30,16 @@ export const getArticles = async (req, res) => {
     const articles = await Article.find({});
 
     // Mettre en cache avec expiration
-    await redis.setex(cacheKey, CACHE_DURATION, JSON.stringify(articles));
-    logger.info("Articles mis en cache Redis");
+    try {
+      await redisClient.setex(
+        cacheKey,
+        CACHE_DURATION,
+        JSON.stringify(articles)
+      );
+      logger.info("Articles mis en cache Redis");
+    } catch (redisError) {
+      handleRedisError(redisError);
+    }
 
     return res.status(200).json(articles);
   } catch (error) {
@@ -41,7 +60,7 @@ export const createArticle = async (req, res) => {
     const savedArticle = await newArticle.save();
 
     // Invalider le cache après création
-    await redis.del("articles");
+    await redisClient.del("articles");
     logger.info("Cache articles invalidé après création");
 
     return res.status(201).json({
@@ -75,7 +94,7 @@ export const updateArticle = async (req, res) => {
     }
 
     // Invalider le cache après mise à jour
-    await redis.del("articles");
+    await redisClient.del("articles");
     logger.info("Cache articles invalidé après mise à jour");
 
     return res.status(200).json({
@@ -109,7 +128,7 @@ export const deleteArticle = async (req, res) => {
     }
 
     // Invalider le cache après suppression
-    await redis.del("articles");
+    await redisClient.del("articles");
     logger.info("Cache articles invalidé après suppression");
 
     return res.status(200).json({

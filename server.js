@@ -13,7 +13,6 @@ import compression from "compression";
 import { requestLogger, errorHandler } from "./middleware/requestLogger.js";
 import logger from "./config/logger.js";
 import helmet from "helmet";
-import redisClient from "./config/redis.js";
 
 const app = express();
 dotenv.config();
@@ -60,10 +59,7 @@ app.use("/api/invoices", invoiceRoutes);
 app.use(errorHandler);
 
 mongoose
-  .connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(process.env.MONGODB_URI)
   .then(() => {
     logger.info("Connected to MongoDB");
     messageEmitter.emit("message", "Connected to MongoDB");

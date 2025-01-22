@@ -11,11 +11,11 @@ const redisClient = new Redis({
   },
 });
 
-Redis.on("connect", () => {
+redisClient.on("connect", () => {
   logger.info("Connected to Redis");
 });
 
-Redis.on("error", (err) => {
+redisClient.on("error", (err) => {
   logger.error("Redis connection error:", err);
 });
 

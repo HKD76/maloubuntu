@@ -1,17 +1,11 @@
 import Article from "../model/Article.js";
-import redisClient from "../config/redis.js";
 import logger from "../config/logger.js";
+import redisClient, { handleRedisError } from "../config/redis.js";
 
 const CACHE_DURATION = 3600; // 1 heure en secondes
 
-const handleRedisError = (error) => {
-  logger.error(`Erreur Redis: ${error.message}`);
-  return null;
-};
-
 export const getArticles = async (req, res) => {
   try {
-    // Vérifier le cache Redis
     const cacheKey = "articles";
     let cachedArticles = null;
 
@@ -26,10 +20,8 @@ export const getArticles = async (req, res) => {
       return res.status(200).json(JSON.parse(cachedArticles));
     }
 
-    // Si pas en cache, récupérer depuis MongoDB
     const articles = await Article.find({});
 
-    // Mettre en cache avec expiration
     try {
       await redisClient.setex(
         cacheKey,

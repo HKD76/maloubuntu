@@ -47,13 +47,6 @@ app.use((req, res, next) => {
   next();
 });
 
-Redis.on("connect", (err) => {
-  logger.info("Connected to Redis");
-});
-Redis.on("error", (err) => {
-  logger.error("Error connecting to Redis", err);
-});
-
 // Configuration du logger pour toutes les routes
 app.use(setupRouteLogger(express.Router(), ROUTES_LOG_FILE));
 

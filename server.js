@@ -13,13 +13,7 @@ import compression from "compression";
 import { requestLogger, errorHandler } from "./middleware/requestLogger.js";
 import logger from "./config/logger.js";
 import helmet from "helmet";
-import Redis from "ioredis";
-
-const redis = new Redis({
-  host: process.env.REDIS_HOST,
-  port: process.env.REDIS_PORT,
-  password: "Toto4242@#",
-});
+import redis from "./config/redis.js";
 
 redis.on("connect", () => {
   logger.info("Connected to Redis");

@@ -13,7 +13,7 @@ import compression from "compression";
 import { requestLogger, errorHandler } from "./middleware/requestLogger.js";
 import logger from "./config/logger.js";
 import helmet from "helmet";
-import Redis from "ioredis";
+import redisClient from "./config/redis.js";
 
 const app = express();
 dotenv.config();
@@ -43,20 +43,6 @@ app.use((req, res, next) => {
   logger.info(`Requete ${req.method} - IP: ${req.ip} - URL: ${req.url}`);
   messageEmitter.emit("message", req.url);
   next();
-});
-
-const redisClient = new Redis({
-  host: "127.0.0.1",
-  port: 6379,
-  password: "Toto4242@#",
-});
-
-redisClient.on("connect", () => {
-  logger.info("Connexion à Redis établie avec succès");
-});
-
-redisClient.on("error", (error) => {
-  logger.error(`Erreur de connexion Redis: ${error}`);
 });
 
 // Configuration du logger pour toutes les routes

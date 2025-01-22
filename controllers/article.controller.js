@@ -1,22 +1,8 @@
 import Article from "../model/Article.js";
 import logger from "../config/logger.js";
-import Redis from "ioredis";
+import redisClient, { handleRedisError } from "../config/redis.js";
 
 const CACHE_DURATION = 3600; // 1 heure en secondes
-
-const redisClient = new Redis({
-  host: "127.0.0.1",
-  port: 6379,
-  password: "Toto4242@#",
-});
-
-redisClient.on("connect", () => {
-  logger.info("Connexion à Redis établie avec succès");
-});
-
-redisClient.on("error", (error) => {
-  logger.error(`Erreur de connexion Redis: ${error}`);
-});
 
 export const getArticles = async (req, res) => {
   try {
@@ -65,9 +51,12 @@ export const createArticle = async (req, res) => {
     const newArticle = new Article(req.body);
     const savedArticle = await newArticle.save();
 
-    // Invalider le cache après création
-    await redisClient.del("articles");
-    logger.info("Cache articles invalidé après création");
+    try {
+      await redisClient.del("articles");
+      logger.info("Cache articles invalidé après création");
+    } catch (redisError) {
+      handleRedisError(redisError);
+    }
 
     return res.status(201).json({
       success: true,

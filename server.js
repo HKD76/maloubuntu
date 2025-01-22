@@ -62,7 +62,10 @@ app.use("/api/invoices", invoiceRoutes);
 app.use(errorHandler);
 
 mongoose
-  .connect(process.env.MONGODB_URI)
+  .connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => {
     logger.info("Connected to MongoDB");
     messageEmitter.emit("message", "Connected to MongoDB");

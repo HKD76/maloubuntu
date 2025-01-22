@@ -118,6 +118,25 @@ export const deleteLanguage = async (req, res) => {
   }
 };
 
+export const createMultipleLanguages = async (req, res) => {
+  try {
+    const languages = req.body;
+    const savedLanguages = await Language.insertMany(languages);
+    res.status(201).json({
+      success: true,
+      message: "Langages créés avec succès",
+      data: savedLanguages,
+    });
+  } catch (error) {
+    logger.error(`Erreur lors de la création des langages: ${error.message}`);
+    res.status(400).json({
+      success: false,
+      message: "Erreur lors de la création des langages",
+      error: error.message,
+    });
+  }
+};
+
 async function invalidateLanguageCache(id = null) {
   const keys = await redis.client.keys("languages:page*");
   if (keys.length > 0) {

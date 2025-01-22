@@ -13,6 +13,7 @@ import compression from "compression";
 import { requestLogger, errorHandler } from "./middleware/requestLogger.js";
 import logger from "./config/logger.js";
 import helmet from "helmet";
+import redisClient from "./config/redis.js";
 
 const app = express();
 dotenv.config();
@@ -57,6 +58,16 @@ app.use("/api/invoices", invoiceRoutes);
 
 // Gestion des erreurs
 app.use(errorHandler);
+
+// Vérifier la connexion Redis au démarrage
+redisClient
+  .ping()
+  .then(() => {
+    logger.info("Redis est connecté");
+  })
+  .catch((err) => {
+    logger.error("Erreur de connexion Redis:", err);
+  });
 
 mongoose
   .connect(process.env.MONGODB_URI)

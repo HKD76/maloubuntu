@@ -15,14 +15,7 @@ import logger from "./config/logger.js";
 import helmet from "helmet";
 import redis from "./config/redis.js";
 
-redis.on("connect", () => {
-  logger.info("Connected to Redis");
-  console.log("Connected to Redis");
-});
-redis.on("error", (err) => {
-  logger.error("Redis connection error:", err);
-  console.error("Redis connection error:", err);
-});
+redis();
 
 const app = express();
 dotenv.config();
